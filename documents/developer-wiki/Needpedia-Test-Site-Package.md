@@ -1,6 +1,7 @@
 # Needpedia Test Site Package 1.0
 
-Last updated 28 September 2026.
+Last updated 16 October 2026. First test run 28 September 2026;
+re-verified 16 October 2026 — see the addendum at the end.
 
 What this is: a way to run several independent copies of Needpedia on
 one Linux machine at the same time, so a developer's work can be looked
@@ -92,8 +93,10 @@ disables the expiry check on the package lists. About eight useful
 lines. Confirmed working on 28 September 2026: a full build completed
 on a clean machine.
 
-**Until this is merged, nobody can build the project.** That includes
-every new volunteer and any fresh machine.
+Merged to the main project (Queuevius/Needpedia) master on
+2 October 2026, pull request #195. The copy of the Dockerfile in this
+seed already contains the fix, and a full build was re-verified on
+16 October 2026 (addendum below).
 
 
 ## Test results, 28 September 2026
@@ -116,19 +119,23 @@ only.
 `copy1.needpedia.test` throughout, including through a search. Never
 redirected to needpedia.org.
 
-**FAILED — database setup race.** On first boot the web container came
+**FAILED on 28 September, FIXED 30 September — database setup race.**
+On first boot the web container came
 up before the database was ready and skipped creating its tables. The
 site returned `ActiveRecord::PendingMigrationError` on every page.
 Fixed by hand by running `rails db:migrate` inside the web container.
 The package documents this as a workaround rather than fixing it. A
 wait was built in, so something is not waiting correctly.
+Fixed on 30 September 2026 in `docker/entrypoint.sh`: the container
+now waits until `rails db:migrate` succeeds before booting the app.
+The failure did not reproduce on 16 October 2026 (addendum below).
 
-**KNOWN, NOT TRIGGERED — port collision.** `m6/copy.env.example` sets a
+**KNOWN on 28 September, RESOLVED — port collision.** `m6/copy.env.example` set a
 fixed `WEB_PORT=3001`, while the instructions say to change only the
 copy name, the address and the database name when adding a second copy.
 A second copy set up that way would collide on port 3001.
 `start-copy.sh` avoids this by defaulting to 0, which picks a free
-port. The example file should do the same.
+port. The example file now also ships with `WEB_PORT=0`.
 
 
 ## What it cannot do yet
@@ -176,3 +183,35 @@ because nothing in the code changes. It is time-triggered decay.
 A scheduled job that tries to build the project from scratch once a
 week and reports pass or fail would have caught the Debian expiry on
 the first Monday in September. Not yet set up; owner undecided.
+
+## Addendum — re-verified 16 October 2026
+
+Run by an AI assistant following this document from a bare clone of
+the project seed, on Linux with Docker Desktop, no root access.
+
+- **PASSED — the build.** Full image built from the seed's copy of
+  the Dockerfile; the Debian-archive fix held.
+- **PASSED — front door and one copy.** `m6/frontdoor` up (Traefik +
+  Sablier), `start-copy.sh demo demo.needpedia.test needpedia_demo`
+  produced a healthy web container in 160 seconds.
+- **PASSED — database setup.** The 30 September entrypoint wait loop
+  migrated the database before boot. The 28 September race did not
+  reproduce; no manual `db:migrate` needed.
+- **PASSED — demo content.** `rails runner m6/demo_seeds.rb` seeded
+  three logins.
+- **PASSED — routing.** Host-header request through the front door on
+  port 80 returned 200; the copy's direct published port returned 200.
+- **PASSED — sleep and wake.** Containers stopped, a visit returned
+  the Sablier waiting page, containers restarted on their own,
+  healthy again.
+- **DNS note (operator, not package).** `demo.needpedia.test` only
+  resolves if added to /etc/hosts. Without root, use the Host-header
+  request or the copy's direct port, as this run did.
+
+Not re-tested in this run: two copies side by side, the address fix
+across a login session (both passed 28 September).
+
+The separate Nexus server in `code/nexus` was not part of this
+document's scope; it fails to start on machines other than the
+original author's because its compose files name hardcoded desktop
+paths. See MISSING.txt / the seed trial report.

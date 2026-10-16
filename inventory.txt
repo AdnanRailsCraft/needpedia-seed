@@ -146,8 +146,12 @@ after librarians who resisted fascism.
   botskill posts (behaviour guides for AI assistants), the AI studios
   where volunteers work with an assistant, an activity page watching
   needpedia.org, and an admin chat.
-- Code: on Tony's desktop computer only. Not online yet. Keys must be
-  taken out before it goes online.
+- Code: in the seed as code/nexus, a copy of the server as it ran on
+  2 October 2026. No GitHub repository of its own yet. Every password,
+  key and token in it was replaced with REPLACE_ME (see MISSING.txt
+  for the one known exception elsewhere in the seed). Its compose
+  files still name Tony's desktop paths and must be edited before the
+  server will start on your machine.
 - Runs on: an ordinary Linux desktop. A web server in Docker, a small
   Python program for admin features, and Cloudflare Tunnel, which makes
   a home computer reachable at a web address.
@@ -175,7 +179,8 @@ after librarians who resisted fascism.
 - Rebuild instructions: a general starter kit is planned (offered to
   John as a job, 30 September 2026).
 - Optional add-on, the Chrome capture extension: saves Claude
-  conversations into the Nexus sidebar. Code on Tony's desktop only.
+  conversations into the Nexus sidebar. In the seed as
+  code/chrome-capture-extension.
 
 ## 9. AI
 
