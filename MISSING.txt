@@ -1,9 +1,11 @@
 WHAT'S MISSING FROM TRIAL 2, AND WHAT ISN'T FINISHED
 
-- rebuild/: step-by-step rebuild instructions are not written yet.
-  For now, work from inventory.txt, the code in code/, and the
-  test-site package instructions in documents/developer-wiki/
-  (Needpedia-Test-Site-Package.md).
+- rebuild/: step-by-step rebuild instructions now exist as rebuild/
+  (README.md is the index; NEXUS.md covers the document server). The
+  main site's tested guide is still
+  documents/developer-wiki/Needpedia-Test-Site-Package.md; the other
+  systems' per-system files are listed as not written in the checklist
+  in rebuild/README.md.
 - Passwords, keys and tokens: every one in the code was replaced
   with REPLACE_ME, with one known exception: the phone app's
   Firebase configuration (code/phone-app/lib/firebase_options.dart)
@@ -11,11 +13,11 @@ WHAT'S MISSING FROM TRIAL 2, AND WHAT ISN'T FINISHED
   keys are meant to be public — access is controlled by each
   project's security rules — but replace them with keys for your own
   Firebase project before you ship an app. Make the rest of your own.
-- The Nexus server will not start on your machine as it stands:
-  code/nexus/docker-compose.yml and home-docker-compose.yml name
-  absolute paths from the original author's desktop
-  (/home/clearcrow/...). Edit every volume path in both files to the
-  folder you unpacked the seed into, then bring it up.
+- The Nexus server's volume paths are now portable: both
+  code/nexus/docker-compose.yml and home-docker-compose.yml use the
+  NEXUS_DIR environment variable (default ./Needpedia_Nexus next to the
+  settings file) and HOME instead of the original author's desktop
+  paths. Bring it up following rebuild/NEXUS.md.
 - The Nexus's videos, audio and mixed media: left out. Its images
   are in media/images/.
 - The Nexus's volunteer accounts: left out. Make your own.

@@ -34,8 +34,9 @@ Read these, in this order, before advising anyone:
 4. documents/needpedia-capabilities.txt : every feature of the site and
    whether it works.
 5. The rebuild instructions for whichever system the person wants to
-   start with. Not written yet as a rebuild/ folder — the one working
-   guide so far is documents/developer-wiki/Needpedia-Test-Site-Package.md
+   start with: rebuild/ (README.md is the index, NEXUS.md covers the
+   document server). The main site's tested guide is still
+   documents/developer-wiki/Needpedia-Test-Site-Package.md
    (see MISSING.txt).
 
 Explain things in plain language. Don't assume the person is technical.
@@ -77,9 +78,10 @@ WHAT'S NOT IN THIS FOLDER
   them; write your own.
 - Passwords, keys and accounts. None are in here, ever — with one
   known exception noted in MISSING.txt. You make your own.
-- rebuild/, the per-system rebuild instructions. Not written yet. Until
-  they are, work from inventory.txt and, for the site itself,
-  documents/developer-wiki/Needpedia-Test-Site-Package.md.
+- rebuild/, the per-system rebuild instructions: started, not finished.
+  rebuild/README.md is the index and rebuild/NEXUS.md covers the
+  document server; the rest are listed as not written there. For the
+  site itself, documents/developer-wiki/Needpedia-Test-Site-Package.md.
 - The scheduling app. Needpedia had to make its own because other apps
   didn't let people schedule at any time, and Needpedia is too
   international for that. Its code wasn't kept. There are many
