@@ -5,7 +5,7 @@ services:
     user: "0:0"
     restart: always
     volumes:
-      - /home/clearcrow/Needpedia_Nexus:/srv
+      - ${NEXUS_DIR:-./Needpedia_Nexus}:/srv
       - ./nexus.db:/database.db
     command: ["--noauth", "--database=/database.db", "--root=/srv", "--port=8080", "--address=0.0.0.0"]
     networks:

@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - /home/clearcrow/Needpedia_Nexus:/usr/share/nginx/html:ro
+      - ${NEXUS_DIR:-./Needpedia_Nexus}:/usr/share/nginx/html:ro
       - ./nginx-default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - nexus-net
@@ -27,9 +27,9 @@ services:
     environment:
       - OPENROUTER_API_KEY=REPLACE_ME
     volumes:
-      - /home/clearcrow/Needpedia_Nexus/order-server.py:/app/order-server.py:ro
-      - /home/clearcrow/Needpedia_Nexus:/data:rw
-      - /home/clearcrow:/home/clearcrow
+      - ./order-server.py:/app/order-server.py:ro
+      - ${NEXUS_DIR:-./Needpedia_Nexus}:/data:rw
+      - ${HOME:-/home/clearcrow}:/home/clearcrow
     ports:
       - "8181:8181"
     networks:
@@ -40,8 +40,8 @@ services:
     restart: always
     command: ["ttyd", "-p", "7681", "-W", "/bin/bash"]
     volumes:
-      - /home/clearcrow/Needpedia_Nexus:/nexus:rw
-      - /home/clearcrow:/home/clearcrow:rw
+      - ${NEXUS_DIR:-./Needpedia_Nexus}:/nexus:rw
+      - ${HOME:-/home/clearcrow}:/home/clearcrow:rw
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker:ro
     networks:
