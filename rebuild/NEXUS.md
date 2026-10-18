@@ -63,11 +63,17 @@ STEPS
 3. Start the main stack:
        cd code/nexus
        docker compose up -d
-       docker compose ps          # all four services should be up
+       docker compose ps          # web, order-server and ttyd should be Up;
+                                  # cloudflare-tunnel restarts until you set
+                                  # its token (or delete that service) — that
+                                  # does not stop http://localhost:8080
 
 4. Check it:
-       curl -I http://localhost:8080        # nginx answers
-       curl http://localhost:8181/healthz   # order server answers (or /)
+       curl -I http://localhost:8080          # nginx answers 200 (after
+                                               # step 1 prepared content;
+                                               # 404 means content folder empty)
+       curl http://localhost:8181/admin-devlog # order server answers 403
+                                               # (up and auth-gated; 403 = good)
        open http://localhost:8080/gallery.html
 
 5. Optional lighter stack (file browser instead of full stack):
